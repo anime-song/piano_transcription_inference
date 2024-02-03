@@ -109,8 +109,6 @@ class PianoTranscription(object):
         (est_note_events, est_pedal_events) = \
             post_processor.output_dict_to_midi_events(output_dict)
 
-        print(est_note_events, est_pedal_events)
-
         # Write MIDI events to file
         if midi_path:
             write_events_to_midi(start_time=0, note_events=est_note_events, 
