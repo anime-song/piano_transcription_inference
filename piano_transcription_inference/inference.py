@@ -14,7 +14,7 @@ from . import config
 
 
 class PianoTranscription(object):
-    def __init__(self, model_type='Note_pedal', checkpoint_path=None, 
+    def __init__(self, model_type='Regress_onset_offset_frame_velocity_CRNN', checkpoint_path=None, 
         segment_samples=16000*10, device=torch.device('cuda')):
         """Class for transcribing piano solo recording.
 
@@ -25,8 +25,14 @@ class PianoTranscription(object):
           device: 'cuda' | 'cpu'
         """
         if not checkpoint_path: 
-            checkpoint_path='{}/piano_transcription_inference_data/note_F1=0.9677_pedal_F1=0.9186.pth'.format(str(Path.home()))
+            checkpoint_path='{}/piano_transcription_inference_data/high_resolution_MAESTRO_augmentations.pth'.format(str(Path.home()))
         print('Checkpoint path: {}'.format(checkpoint_path))
+
+        if not os.path.exists(checkpoint_path):
+            print("Total Size 104MB")
+            zenodo_path = 'https://zenodo.org/records/10610212/files/high_resolution_MAESTRO_augmentations.pth?download=1'
+            os.makedirs(os.path.dirname(checkpoint_path))
+            os.system('wget -O "{}" "{}"'.format(checkpoint_path, zenodo_path))
 
         print('Using {} for inference.'.format(device))
 
